@@ -58,7 +58,7 @@ public struct WSError: Error {
 }
 
 //WebSocketClient is setup to be dependency injection for testing
-public protocol WebSocketClient: class {
+public protocol WebSocketClient: AnyObject {
     var delegate: WebSocketDelegate? {get set}
     var pongDelegate: WebSocketPongDelegate? {get set}
     var disableSSLCertValidation: Bool {get set}
@@ -116,7 +116,7 @@ public struct SSLSettings {
     #endif
 }
 
-public protocol WSStreamDelegate: class {
+public protocol WSStreamDelegate: AnyObject {
     func newBytesInStream()
     func streamDidError(error: Error?)
 }
@@ -315,7 +315,7 @@ open class FoundationStream : NSObject, WSStream, StreamDelegate  {
 //WebSocket implementation
 
 //standard delegate you should use
-public protocol WebSocketDelegate: class {
+public protocol WebSocketDelegate: AnyObject {
     func websocketDidConnect(socket: WebSocketClient)
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?)
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String)
@@ -323,12 +323,12 @@ public protocol WebSocketDelegate: class {
 }
 
 //got pongs
-public protocol WebSocketPongDelegate: class {
+public protocol WebSocketPongDelegate: AnyObject {
     func websocketDidReceivePong(socket: WebSocketClient, data: Data?)
 }
 
 // A Delegate with more advanced info on messages and connection etc.
-public protocol WebSocketAdvancedDelegate: class {
+public protocol WebSocketAdvancedDelegate: AnyObject {
     func websocketDidConnect(socket: WebSocket)
     func websocketDidDisconnect(socket: WebSocket, error: Error?)
     func websocketDidReceiveMessage(socket: WebSocket, text: String, response: WebSocket.WSResponse)
